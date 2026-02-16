@@ -1,7 +1,17 @@
+Dart
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  // Pata taarifa za mtumiaji aliyelogin sasa
+  final currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -17,51 +27,59 @@ class ProfileScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            // Profile Image
-            const CircleAvatar(
+            // Profile Image (Dynamic)
+            CircleAvatar(
               radius: 60,
-              backgroundImage: AssetImage("assets/images/profile.jpg"),
+              backgroundImage: currentUser?.photoURL != null
+                  ? NetworkImage(currentUser!.photoURL!)
+                  : const AssetImage("assets/images/profile.jpg")
+                      as ImageProvider,
             ),
             const SizedBox(height: 20),
 
-            // Username
-            const Text(
-              "Catherine Sinkala",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            // User Display Name
+            Text(
+              currentUser?.displayName ?? "Jina Halisi",
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
 
             const SizedBox(height: 5),
-            const Text(
-              "@cattie",
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+
+            // User email as username style
+            Text(
+              currentUser?.email ?? "@username",
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
             ),
 
             const SizedBox(height: 20),
 
-            // Info Cards
+            // Email Card
             Card(
               elevation: 2,
               child: ListTile(
                 leading: const Icon(Icons.email),
                 title: const Text("Email"),
-                subtitle: const Text("catherine@example.com"),
-              ),
-            ),
-            Card(
-              elevation: 2,
-              child: ListTile(
-                leading: const Icon(Icons.phone),
-                title: const Text("Phone"),
-                subtitle: const Text("+255 712 345 678"),
+                subtitle: Text(currentUser?.email ?? "Haipatikani"),
               ),
             ),
 
+            // Default dummy phone
             Card(
               elevation: 2,
-              child: ListTile(
-                leading: const Icon(Icons.location_on),
-                title: const Text("Location"),
-                subtitle: const Text("Dar es Salaam, Tanzania"),
+              child: const ListTile(
+                leading: Icon(Icons.phone),
+                title: Text("Phone"),
+                subtitle: Text("+255 712 345 678"),
+              ),
+            ),
+
+            // Default dummy location
+            Card(
+              elevation: 2,
+              child: const ListTile(
+                leading: Icon(Icons.location_on),
+                title: Text("Location"),
+                subtitle: Text("Dar es Salaam, Tanzania"),
               ),
             ),
 
