@@ -1,0 +1,588 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: UploadPage(),
+    );
+  }
+}
+
+class UploadPage extends StatefulWidget {
+  const UploadPage({super.key});
+
+  @override
+  State<UploadPage> createState() => _UploadPageState();
+}
+
+class _UploadPageState extends State<UploadPage> {
+  File? imageFile;
+  File? attachmentFile;
+
+  bool uploading = false;
+
+  String? imageUrl;
+  String? fileUrl;
+
+  // pick image
+  Future<void> pickImage() async {
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(source: ImageSource.gallery);
+
+    if (picked != null) {
+      setState(() {
+        imageFile = File(picked.path);
+      });
+    }
+  }
+
+  // pick attachment
+  Future<void> pickFile() async {
+    final result = await FilePicker.platform.pickFiles();
+
+    if (result != null && result.files.single.path != null) {
+      setState(() {
+        attachmentFile = File(result.files.single.path!);
+      });
+    }
+  }
+
+  // upload to firebase storage
+  Future<String> uploadFile(File file, String folder) async {
+    final fileName =
+        "${DateTime.now().millisecondsSinceEpoch}_${file.path.split('/').last}";
+    final ref =
+        FirebaseStorage.instance.ref().child("$folder/$fileName");
+
+    final task = await ref.putFile(file);
+    return await task.ref.getDownloadURL();
+  }
+
+  // upload both
+  Future<void> uploadAll() async {
+    if (imageFile == null && attachmentFile == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Chagua image au file kwanza")),
+      );
+      return;
+    }
+
+    setState(() => uploading = true);
+
+    try {
+      String? img;
+      String? file;
+
+      if (imageFile != null) {
+        img = await uploadFile(imageFile!, "images");
+      }
+
+      if (attachmentFile != null) {
+        file = await uploadFile(attachmentFile!, "attachments");
+      }
+
+      // save urls to firestore (optional)
+      await FirebaseFirestore.instance.collection("uploads").add({
+        "imageUrl": img,
+        "fileUrl": file,
+        "createdAt": FieldValue.serverTimestamp(),
+      });
+
+      setState(() {
+        imageUrl = img;
+        fileUrl = file;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Upload successful ✅")),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error ❌ $e")),
+      );
+    } finally {
+      setState(() => uploading = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Firebase Upload")),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // image preview
+            Container(
+              height: 160,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: imageFile != null
+                  ? Image.file(imageFile!, fit: BoxFit.cover)
+                  : const Center(child: Text("No image selected")),
+            ),
+
+            const SizedBox(height: 10),
+
+            Text(
+              attachmentFile != null
+                  ? "File: ${attachmentFile!.path.split('/').last}"
+                  : "No file selected",
+            ),
+
+            const SizedBox(height: 16),
+
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: uploading ? null : pickImage,
+                    child: const Text("Pick Image"),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: uploading ? null : pickFile,
+                    child: const Text("Pick File"),
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 16),
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: uploading ? null : uploadAll,
+                child: uploading
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    : const Text("Upload"),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            if (imageUrl != null) Text("Image URL:\n$imageUrl"),
+            if (fileUrl != null) Text("\nFile URL:\n$fileUrl"),
+          ],
+        ),
+      ),
+    );
+  }
+}
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: UploadPage(),
+    );
+  }
+}
+
+class UploadPage extends StatefulWidget {
+  const UploadPage({super.key});
+
+  @override
+  State<UploadPage> createState() => _UploadPageState();
+}
+
+class _UploadPageState extends State<UploadPage> {
+  File? imageFile;
+  File? attachmentFile;
+
+  bool uploading = false;
+
+  String? imageUrl;
+  String? fileUrl;
+
+  // pick image
+  Future<void> pickImage() async {
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(source: ImageSource.gallery);
+
+    if (picked != null) {
+      setState(() {
+        imageFile = File(picked.path);
+      });
+    }
+  }
+
+  // pick attachment
+  Future<void> pickFile() async {
+    final result = await FilePicker.platform.pickFiles();
+
+    if (result != null && result.files.single.path != null) {
+      setState(() {
+        attachmentFile = File(result.files.single.path!);
+      });
+    }
+  }
+
+  // upload to firebase storage
+  Future<String> uploadFile(File file, String folder) async {
+    final fileName =
+        "${DateTime.now().millisecondsSinceEpoch}_${file.path.split('/').last}";
+    final ref =
+        FirebaseStorage.instance.ref().child("$folder/$fileName");
+
+    final task = await ref.putFile(file);
+    return await task.ref.getDownloadURL();
+  }
+
+  // upload both
+  Future<void> uploadAll() async {
+    if (imageFile == null && attachmentFile == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Chagua image au file kwanza")),
+      );
+      return;
+    }
+
+    setState(() => uploading = true);
+
+    try {
+      String? img;
+      String? file;
+
+      if (imageFile != null) {
+        img = await uploadFile(imageFile!, "images");
+      }
+
+      if (attachmentFile != null) {
+        file = await uploadFile(attachmentFile!, "attachments");
+      }
+
+      // save urls to firestore (optional)
+      await FirebaseFirestore.instance.collection("uploads").add({
+        "imageUrl": img,
+        "fileUrl": file,
+        "createdAt": FieldValue.serverTimestamp(),
+      });
+
+      setState(() {
+        imageUrl = img;
+        fileUrl = file;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Upload successful ✅")),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error ❌ $e")),
+      );
+    } finally {
+      setState(() => uploading = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Firebase Upload")),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // image preview
+            Container(
+              height: 160,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: imageFile != null
+                  ? Image.file(imageFile!, fit: BoxFit.cover)
+                  : const Center(child: Text("No image selected")),
+            ),
+
+            const SizedBox(height: 10),
+
+            Text(
+              attachmentFile != null
+                  ? "File: ${attachmentFile!.path.split('/').last}"
+                  : "No file selected",
+            ),
+
+            const SizedBox(height: 16),
+
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: uploading ? null : pickImage,
+                    child: const Text("Pick Image"),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: uploading ? null : pickFile,
+                    child: const Text("Pick File"),
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 16),
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: uploading ? null : uploadAll,
+                child: uploading
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    : const Text("Upload"),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            if (imageUrl != null) Text("Image URL:\n$imageUrl"),
+            if (fileUrl != null) Text("\nFile URL:\n$fileUrl"),
+          ],
+        ),
+      ),
+    );
+  }
+}
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: UploadPage(),
+    );
+  }
+}
+
+class UploadPage extends StatefulWidget {
+  const UploadPage({super.key});
+
+  @override
+  State<UploadPage> createState() => _UploadPageState();
+}
+
+class _UploadPageState extends State<UploadPage> {
+  File? imageFile;
+  File? attachmentFile;
+
+  bool uploading = false;
+
+  String? imageUrl;
+  String? fileUrl;
+
+  // pick image
+  Future<void> pickImage() async {
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(source: ImageSource.gallery);
+
+    if (picked != null) {
+      setState(() {
+        imageFile = File(picked.path);
+      });
+    }
+  }
+
+  // pick attachment
+  Future<void> pickFile() async {
+    final result = await FilePicker.platform.pickFiles();
+
+    if (result != null && result.files.single.path != null) {
+      setState(() {
+        attachmentFile = File(result.files.single.path!);
+      });
+    }
+  }
+
+  // upload to firebase storage
+  Future<String> uploadFile(File file, String folder) async {
+    final fileName =
+        "${DateTime.now().millisecondsSinceEpoch}_${file.path.split('/').last}";
+    final ref =
+        FirebaseStorage.instance.ref().child("$folder/$fileName");
+
+    final task = await ref.putFile(file);
+    return await task.ref.getDownloadURL();
+  }
+
+  // upload both
+  Future<void> uploadAll() async {
+    if (imageFile == null && attachmentFile == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Chagua image au file kwanza")),
+      );
+      return;
+    }
+
+    setState(() => uploading = true);
+
+    try {
+      String? img;
+      String? file;
+
+      if (imageFile != null) {
+        img = await uploadFile(imageFile!, "images");
+      }
+
+      if (attachmentFile != null) {
+        file = await uploadFile(attachmentFile!, "attachments");
+      }
+
+      // save urls to firestore (optional)
+      await FirebaseFirestore.instance.collection("uploads").add({
+        "imageUrl": img,
+        "fileUrl": file,
+        "createdAt": FieldValue.serverTimestamp(),
+      });
+
+      setState(() {
+        imageUrl = img;
+        fileUrl = file;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Upload successful ✅")),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error ❌ $e")),
+      );
+    } finally {
+      setState(() => uploading = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Firebase Upload")),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // image preview
+            Container(
+              height: 160,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: imageFile != null
+                  ? Image.file(imageFile!, fit: BoxFit.cover)
+                  : const Center(child: Text("No image selected")),
+            ),
+
+            const SizedBox(height: 10),
+
+            Text(
+              attachmentFile != null
+                  ? "File: ${attachmentFile!.path.split('/').last}"
+                  : "No file selected",
+            ),
+
+            const SizedBox(height: 16),
+
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: uploading ? null : pickImage,
+                    child: const Text("Pick Image"),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: uploading ? null : pickFile,
+                    child: const Text("Pick File"),
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 16),
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: uploading ? null : uploadAll,
+                child: uploading
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    : const Text("Upload"),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            if (imageUrl != null) Text("Image URL:\n$imageUrl"),
+            if (fileUrl != null) Text("\nFile URL:\n$fileUrl"),
+          ],
+        ),
+      ),
+    );
+  }
+}
