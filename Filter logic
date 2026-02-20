@@ -1,0 +1,5 @@
+// UserListFragment.kt
+fun filterList(query: String) {
+    val filtered = userList.filter { it.name?.contains(query, ignoreCase = true) == true }
+    adapter.updateList(filtered)
+}
