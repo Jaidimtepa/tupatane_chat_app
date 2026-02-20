@@ -9,7 +9,7 @@ Tupatane is a basic chat application designed to learn Flutter development with 
 
 1. **Authentication** - User signup and login with Firebase Authentication
 
-2. **See Other Users** - View list of all other registered users
+2. **See Other Users**- View list of all other registered users
 
 3. **Send and Receive Messages** - Real-time messaging between users using Firebase Realtime Database
 
@@ -36,7 +36,7 @@ Tupatane is a basic chat application designed to learn Flutter development with 
 flutter pub get
 ```
 
-### 3. Run the App
+### 3. Run App
 ```bash
 flutter run
 ```
