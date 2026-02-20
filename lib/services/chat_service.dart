@@ -89,4 +89,32 @@ class ChatService {
       return messages;
     });
   }
+
+  // Get the last message for a chat
+  Stream<Message?> getLastMessageStream(String userId1, String userId2) {
+    final chatId = _generateChatId(userId1, userId2);
+    return _database.ref('messages/$chatId').onValue.map((event) {
+      if (!event.snapshot.exists) return null;
+
+      List<Message> messages = [];
+      for (var child in event.snapshot.children) {
+        final message = Message.fromJson(
+          Map<String, dynamic>.from(child.value as Map),
+        );
+        messages.add(message);
+      }
+
+      if (messages.isEmpty) return null;
+
+      // Sort by timestamp and get the last one
+      messages.sort((a, b) => b.timestamp.compareTo(a.timestamp));
+      return messages.first;
+    });
+  }
+
+  // Generate chat ID from two user IDs
+  String _generateChatId(String userId1, String userId2) {
+    final uids = [userId1, userId2]..sort();
+    return uids.join('_');
+  }
 }
