@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tupatane_chat_app/models/user_model.dart';
+import 'package:tupatane_chat_app/models/message_model.dart';
 import 'package:tupatane_chat_app/services/chat_service.dart';
 import 'package:tupatane_chat_app/services/auth_service.dart';
 import 'package:tupatane_chat_app/pages/chat.dart';
@@ -46,19 +47,36 @@ class _UsersPageState extends State<UsersPage> {
             itemCount: users.length,
             itemBuilder: (context, index) {
               final otherUser = users[index];
-              return ListTile(
-                title: Text(otherUser.username),
-                subtitle: Text(otherUser.email),
-                trailing: const Icon(Icons.chevron_right),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChatPage(
-                        currentUser: widget.user,
-                        otherUser: otherUser,
-                      ),
+              return StreamBuilder<Message?>(
+                stream: _chatService.getLastMessageStream(
+                  widget.user.uid,
+                  otherUser.uid,
+                ),
+                builder: (context, messageSnapshot) {
+                  String subtitle = 'No messages yet';
+                  if (messageSnapshot.hasData && messageSnapshot.data != null) {
+                    subtitle = messageSnapshot.data!.content;
+                  }
+
+                  return ListTile(
+                    title: Text(otherUser.username),
+                    subtitle: Text(
+                      subtitle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChatPage(
+                            currentUser: widget.user,
+                            otherUser: otherUser,
+                          ),
+                        ),
+                      );
+                    },
                   );
                 },
               );
