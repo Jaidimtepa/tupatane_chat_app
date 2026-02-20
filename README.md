@@ -20,7 +20,7 @@ Tupatane is a basic chat application designed to learn Flutter development with 
 - **Flutter**: Cross-platform development
 - **Dart**: Programming language
 - **Firebase Authentication**: User login/signup
-- **Cloud Firestore**: Store messages and user data
+- **Cloud Firestore**: Store messages andgit user data
 - **Firebase Cloud Messaging (FCM)**: Push notifications
 
 ## Quick Start
@@ -69,4 +69,3 @@ lib/
 |
 └── firebase_options.dart
 ```
-
