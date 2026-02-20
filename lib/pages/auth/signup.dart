@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tupatane_chat_app/services/auth_service.dart';
 
 class SignupPage extends StatefulWidget {
   final VoidCallback onLoginTap;
@@ -11,8 +12,10 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmController = TextEditingController();
+  final AuthService _authService = AuthService();
   bool _isLoading = false;
 
   @override
@@ -34,6 +37,14 @@ class _SignupPageState extends State<SignupPage> {
                   validator: (value) => value != null && value.contains('@')
                       ? null
                       : 'Enter a valid email',
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _usernameController,
+                  decoration: const InputDecoration(labelText: 'Username'),
+                  validator: (value) => value != null && value.length >= 3
+                      ? null
+                      : 'Username must be at least 3 characters',
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
@@ -78,14 +89,42 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
-  void _onSignup() {
+  void _onSignup() async {
     if (_formKey.currentState?.validate() ?? false) {
       setState(() => _isLoading = true);
-      // TODO: Implement signup logic
-      Future.delayed(const Duration(seconds: 1), () {
-        setState(() => _isLoading = false);
-        // Show success or error
-      });
+      try {
+        await _authService.register(
+          email: _emailController.text.trim(),
+          username: _usernameController.text.trim(),
+          password: _passwordController.text,
+        );
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Sign up successful! Please log in.')),
+          );
+          widget.onLoginTap();
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
+        }
+      } finally {
+        if (mounted) {
+          setState(() => _isLoading = false);
+        }
+      }
     }
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _usernameController.dispose();
+    _passwordController.dispose();
+    _confirmController.dispose();
+    super.dispose();
   }
 }
