@@ -121,6 +121,7 @@ class _ChatPageState extends State<ChatPage> {
                 const SizedBox(width: 8),
                 IconButton(
                   icon: const Icon(Icons.send),
+                  color: Colors.green,
                   onPressed: _sendMessage,
                 ),
               ],
