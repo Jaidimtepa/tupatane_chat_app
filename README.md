@@ -84,7 +84,7 @@ lib/
 |  EDWARD P ROBERT | NIT/BIT/2023/2247 | 7eddi |
 |  MICHAEL PIUS | NIT/BIT/2022/1839 | michaelpius |
 |  REHEMA E LUGALA | NIT/BIT/2023/2045 | lugalarehema |
-|  NICKSON N SHANG'A | NIT/BIT/2023/2246 | Mrnicolaus |
+|  NICKSON N SHANG'A | NIT/BIT/2023/2246 | Mrnicholaus |
 |  DENIS S MAHECHA | NIT/BIT/2023/2057 | Denis Mahecha |
 |  JAIDI S MTEPA | NIT/BIT/2023/2317 | Jaidimtepa |
 |  RICHARD B CHAKALA | NIT/BIT/2023/2188 | richardbchakala |
