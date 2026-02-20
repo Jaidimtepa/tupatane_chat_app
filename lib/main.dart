@@ -23,6 +23,7 @@ class Tupatane extends StatelessWidget {
       title: 'Tupatane Chat',
       theme: getDarkTheme(),
       darkTheme: getLightTheme(),
+      debugShowCheckedModeBanner: false,
       home: AuthSwitcher(),
     );
   }
