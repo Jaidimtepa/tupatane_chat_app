@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tupatane_chat_app/services/auth_service.dart';
+import 'package:tupatane_chat_app/pages/users.dart';
 
 class LoginPage extends StatefulWidget {
   final VoidCallback onSignupTap;
@@ -12,6 +14,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final AuthService _authService = AuthService();
   bool _isLoading = false;
 
   @override
@@ -66,14 +69,38 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _onLogin() {
+  void _onLogin() async {
     if (_formKey.currentState?.validate() ?? false) {
       setState(() => _isLoading = true);
-      // TODO: Implement login logic
-      Future.delayed(const Duration(seconds: 1), () {
-        setState(() => _isLoading = false);
-        // Show success or error
-      });
+      try {
+        final user = await _authService.login(
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
+        );
+
+        if (user != null && mounted) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => UsersPage(user: user)),
+          );
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
+        }
+      } finally {
+        if (mounted) {
+          setState(() => _isLoading = false);
+        }
+      }
     }
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }
