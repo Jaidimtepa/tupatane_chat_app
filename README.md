@@ -80,7 +80,7 @@ lib/
 |  VITUS A SUNGWA | NIT/BIT/2023/2321 | Vitus2002 |
 |  BRIGHT MLONGANILE | NIT/BIT/2023/2313 | MlonileBrirod |
 |  HUSNA H MOHAMEDI | NIT/BIT/2023/2233 | Husna-mohamedi |
-|  NOREEN M MBILINYI | NIT/BIT/2023/2314 | noreenmbilinyi |
+|  NOREEN M MBILINYI | NIT/BIT/2023/2314 | noreenmeshack04-design|
 |  EDWARD P ROBERT | NIT/BIT/2023/2247 | 7eddi |
 |  MICHAEL PIUS | NIT/BIT/2022/1839 | michaelpius |
 |  REHEMA E LUGALA | NIT/BIT/2023/2045 | lugalarehema |
