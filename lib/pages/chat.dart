@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tupatane_chat_app/models/user_model.dart';
 import 'package:tupatane_chat_app/models/message_model.dart';
 import 'package:tupatane_chat_app/services/chat_service.dart';
+import 'package:tupatane_chat_app/theme/color_scheme.dart';
 
 class ChatPage extends StatefulWidget {
   final User currentUser;
@@ -65,7 +66,9 @@ class _ChatPageState extends State<ChatPage> {
                         margin: const EdgeInsets.all(8),
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: isCurrentUser ? Colors.blue : Colors.grey[300],
+                          color: isCurrentUser
+                              ? AppColors.primary
+                              : Colors.grey[300],
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Column(
@@ -121,6 +124,7 @@ class _ChatPageState extends State<ChatPage> {
                 const SizedBox(width: 8),
                 IconButton(
                   icon: const Icon(Icons.send),
+                  color: Colors.green,
                   onPressed: _sendMessage,
                 ),
               ],
