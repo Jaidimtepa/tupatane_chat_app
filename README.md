@@ -91,16 +91,9 @@ lib/
 |  CATHERINE J SINKALA | NIT/BIT/2023/2096 | catherinesinkala24-alt |
 
 ## App screenshot
-login page
 <img width="506" height="708" alt="Screenshot 2026-02-20 192257" src="https://github.com/user-attachments/assets/9dc9c113-4751-4529-a40d-2527f319a8f1" />
-
-register page
 <img width="503" height="714" alt="Screenshot 2026-02-20 192949" src="https://github.com/user-attachments/assets/bc566177-7831-44af-9358-9cf31c3b8794" />
-
-chat list
 <img width="504" height="703" alt="Screenshot 2026-02-20 202808" src="https://github.com/user-attachments/assets/19bc9adc-5bd2-41a4-974b-aab9ffd40c30" />
-
-chattings
 <img width="507" height="709" alt="Screenshot 2026-02-20 204153" src="https://github.com/user-attachments/assets/724a2484-1372-4f4e-8671-0ea28b1f0f94" />
 <img width="506" height="707" alt="Screenshot 2026-02-20 204329" src="https://github.com/user-attachments/assets/dee84241-35e7-4c67-963d-ec01e50c5449" />
 <img width="504" height="721" alt="Screenshot 2026-02-20 171143" src="https://github.com/user-attachments/assets/b9fb3ed7-bc8d-4dba-a697-ab71bc3e78b7" />
