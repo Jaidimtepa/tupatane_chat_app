@@ -17,6 +17,8 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController _confirmController = TextEditingController();
   final AuthService _authService = AuthService();
   bool _isLoading = false;
+  bool _obscurePassword = true;
+  bool _obscureConfirm = true;
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +51,20 @@ class _SignupPageState extends State<SignupPage> {
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: _passwordController,
-                  decoration: const InputDecoration(labelText: 'Password'),
-                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscurePassword
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setState(() => _obscurePassword = !_obscurePassword);
+                      },
+                    ),
+                  ),
+                  obscureText: _obscurePassword,
                   validator: (value) => value != null && value.length >= 6
                       ? null
                       : 'Password must be at least 6 characters',
@@ -58,10 +72,20 @@ class _SignupPageState extends State<SignupPage> {
                 const SizedBox(height: 16),
                 TextFormField(
                   controller: _confirmController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Confirm Password',
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscureConfirm
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setState(() => _obscureConfirm = !_obscureConfirm);
+                      },
+                    ),
                   ),
-                  obscureText: true,
+                  obscureText: _obscureConfirm,
                   validator: (value) => value == _passwordController.text
                       ? null
                       : 'Passwords do not match',
