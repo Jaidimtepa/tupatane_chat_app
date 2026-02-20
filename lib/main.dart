@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:tupatane_chat_app/theme/color_scheme.dart';
+import 'pages/auth/login.dart';
+import 'pages/auth/signup.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,13 +21,27 @@ class Tupatane extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Tupatane Chat',
-      theme: getDarkTheme(), // Use dark theme
-      darkTheme: getLightTheme(), // Use light theme
-      home: const Scaffold(
-        body: Center(
-          child: Text('Tupatane Chat App\n\nFirebase configured successfully!'),
-        ),
-      ),
+      theme: getDarkTheme(),
+      darkTheme: getLightTheme(),
+      home: AuthSwitcher(),
     );
+  }
+}
+
+class AuthSwitcher extends StatefulWidget {
+  @override
+  State<AuthSwitcher> createState() => _AuthSwitcherState();
+}
+
+class _AuthSwitcherState extends State<AuthSwitcher> {
+  bool showLogin = true;
+
+  void toggle() => setState(() => showLogin = !showLogin);
+
+  @override
+  Widget build(BuildContext context) {
+    return showLogin
+        ? LoginPage(onSignupTap: toggle)
+        : SignupPage(onLoginTap: toggle);
   }
 }
