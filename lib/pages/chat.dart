@@ -90,14 +90,30 @@ class _ChatPageState extends State<ChatPage> {
                                     : Colors.black,
                               ),
                             ),
-                            Text(
-                              message.timestamp.toString().split('.')[0],
-                              style: TextStyle(
-                                fontSize: 10,
-                                color: isCurrentUser
-                                    ? Colors.white70
-                                    : Colors.grey[600],
-                              ),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  message.timestamp.toString().split('.')[0],
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: isCurrentUser
+                                        ? Colors.white70
+                                        : Colors.grey[600],
+                                  ),
+                                ),
+                                if (isCurrentUser) const SizedBox(width: 4),
+                                if (isCurrentUser)
+                                  Icon(
+                                    message.isRead
+                                        ? Icons.done_all
+                                        : Icons.done,
+                                    size: 14,
+                                    color: isCurrentUser
+                                        ? Colors.white70
+                                        : Colors.grey[600],
+                                  ),
+                              ],
                             ),
                           ],
                         ),
