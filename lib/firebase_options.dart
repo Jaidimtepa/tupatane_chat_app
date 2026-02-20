@@ -35,14 +35,14 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'YOUR_WEB_API_KEY_FROM_FIREBASE_CONSOLE',
-    appId: 'YOUR_WEB_APP_ID',
-    messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-    projectId: 'tupatane',
-    authDomain: 'tupatane.firebaseapp.com',
+    apiKey: 'AIzaSyD1hlhCOmeqUR_UoM8XTcJr2RUM6B3V32M',
+    appId: '1:566661111710:web:68cd25de9d844f856b808f',
+    messagingSenderId: '566661111710',
+    projectId: 'tupatane-8fa53',
+    authDomain: 'tupatane-8fa53.firebaseapp.com',
     databaseURL: 'https://tupatane-8fa53-default-rtdb.firebaseio.com',
-    storageBucket: 'tupatane.appspot.com',
-    measurementId: 'YOUR_MEASUREMENT_ID',
+    storageBucket: 'tupatane-8fa53.appspot.com',
+    measurementId: 'G-76LSD7N6XD',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
