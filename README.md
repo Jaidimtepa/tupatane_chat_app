@@ -69,3 +69,4 @@ lib/
 |
 └── firebase_options.dart
 ```
+
