@@ -32,7 +32,7 @@ class _UsersPageState extends State<UsersPage> {
         ],
       ),
       body: StreamBuilder<List<User>>(
-        stream: _chatService.getUsersStream(widget.user.uid),
+        stream: _chatService.getUsersSortedByLastMessage(widget.user.uid),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -53,18 +53,31 @@ class _UsersPageState extends State<UsersPage> {
                   otherUser.uid,
                 ),
                 builder: (context, messageSnapshot) {
-                  String subtitle = 'No messages yet';
-                  if (messageSnapshot.hasData && messageSnapshot.data != null) {
-                    subtitle = messageSnapshot.data!.content;
-                  }
-
                   return ListTile(
                     title: Text(otherUser.username),
-                    subtitle: Text(
-                      subtitle,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    subtitle:
+                        messageSnapshot.hasData && messageSnapshot.data != null
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                messageSnapshot.data!.content,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                _formatTimestamp(
+                                  messageSnapshot.data!.timestamp,
+                                ),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                            ],
+                          )
+                        : const Text('No messages yet'),
                     trailing: const Icon(Icons.chevron_right),
                     onTap: () {
                       Navigator.push(
@@ -85,6 +98,18 @@ class _UsersPageState extends State<UsersPage> {
         },
       ),
     );
+  }
+
+  String _formatTimestamp(DateTime timestamp) {
+    final dt = timestamp.toLocal();
+    final now = DateTime.now();
+    final twoDigits = (int n) => n.toString().padLeft(2, '0');
+
+    if (dt.year == now.year && dt.month == now.month && dt.day == now.day) {
+      return "${twoDigits(dt.hour)}:${twoDigits(dt.minute)}";
+    } else {
+      return "${dt.day}/${dt.month}/${dt.year} ${twoDigits(dt.hour)}:${twoDigits(dt.minute)}";
+    }
   }
 
   void _logout() async {
