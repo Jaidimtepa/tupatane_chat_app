@@ -18,19 +18,19 @@
 
 ## Phase 3: Authentication
 - [x] **3.1** Defining the color scheme for the project
-- [ ] **3.2** Implement sign up and login screens
-- [ ] **3.3** Integrate Firebase Authentication (username/email/password) 
-- [ ] **3.4** Handle authentication state and user sessions
+- [x] **3.2** Implement sign up and login screens
+- [x] **3.3** Integrate Firebase Authentication (username/email/password) 
+- [x] **3.4** Handle authentication state and user sessions
 
 ## Phase 4: User Management
 
-- [ ] **4.1** Create user model and Realtime Database user node
-- [ ] **4.2** Display list of users (excluding current user)
+- [x] **4.1** Create user model and Realtime Database user node
+- [x] **4.2** Display list of users (excluding current user)
 
 ## Phase 5: Chat Functionality
-- [ ] **5.1** Design chat model and Realtime Database chat/message nodes
-- [ ] **5.2** Implement real-time messaging (send/receive messages) 
-- [ ] **5.3** Display chat history and update UI in real time
+- [x] **5.1** Design chat model and Realtime Database chat/message nodes
+- [x] **5.2** Implement real-time messaging (send/receive messages) 
+- [x] **5.3** Display chat history and update UI in real time
 
 ## Phase 6: Push Notifications
 
@@ -42,17 +42,17 @@
 
 ## Phase 7: UI/UX Improvements
 
-- [ ] **7.1** Add splash screen and loading indicators
-- [ ] **7.2** Polish chat UI (bubbles, timestamps, avatars)
-- [ ] **7.3** Add error handling and validation
+- [x] **7.1** Add splash screen and loading indicators
+- [x] **7.2** Polish chat UI (bubbles, timestamps, avatars)
+- [x] **7.3** Add error handling and validation
 
 ---
 
 ### Firebase Console State Checklist
 - [x] **Authentication**: Email/Password enabled
 - [x] **Realtime Database**: Created, in test mode, with users and messages nodes
-- [ ] **Cloud Messaging**: Not enabled (optional, for future notifications)
-- [ ] **Firestore**: Not required
-- [ ] **Storage**: Not required (unless supporting file uploads)
+- [x] **Cloud Messaging**: Not enabled (optional, for future notifications)
+- [x] **Firestore**: Not required
+- [x] **Storage**: Not required (unless supporting file uploads)
 
 
