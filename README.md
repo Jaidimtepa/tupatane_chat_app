@@ -1,4 +1,4 @@
- # Tupatane
+# Tupatane
 
 A simple chat application built with **Flutter** and **Firebase**
 
@@ -11,25 +11,25 @@ Tupatane is a basic chat application designed to learn Flutter development with 
 
 2. **See Other Users** - View list of all other registered users
 
-3. **Send and Receive Messages** - Real-time messaging between users using Cloud Firestore
+3. **Send and Receive Messages** - Real-time messaging between users using Firebase Realtime Database
 
-4. **Get Notifications** - Receive push notifications for new messages using Firebase Cloud Messaging
+4. **Get Notifications** - (Planned) Receive push notifications for new messages using Firebase Cloud Messaging
 
 ## Technology Stack
 
 - **Flutter**: Cross-platform development
 - **Dart**: Programming language
 - **Firebase Authentication**: User login/signup
-- **Cloud Firestore**: Store messages andgit user data
-- **Firebase Cloud Messaging (FCM)**: Push notifications
+- **Firebase Realtime Database**: Store messages and user data
+- **Firebase Cloud Messaging (FCM)**: (Planned) Push notifications
 
 ## Quick Start
 
 ### 1. Setup Firebase
 - Create a project at [firebase.google.com](https://firebase.google.com)
 - Enable Firebase Authentication (Email/Password)
-- Create a Cloud Firestore database
-- Enable Cloud Messaging
+- Create a Firebase Realtime Database (test mode for development)
+- (Optional) Enable Cloud Messaging for notifications
 
 ### 2. Install Dependencies
 ```bash
@@ -62,7 +62,7 @@ lib/
 |   ├── user_service.dart
 |   └── notification_service.dart
 ├── theme/
-|   └── colors_scheme.dart
+|   └── color_scheme.dart
 └── widgets/
 |   ├── progress_indicator.dart
 |   └── logout_button.dart
