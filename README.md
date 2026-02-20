@@ -91,11 +91,22 @@ lib/
 |  CATHERINE J SINKALA | NIT/BIT/2023/2096 | catherinesinkala24-alt |
 
 ## App screenshot
-<img width="502" height="719" alt="Screenshot 2026-02-20 165316" src="https://github.com/user-attachments/assets/b639e5ff-3494-4c7c-8616-5ec0054e2984" />
-<img width="506" height="722" alt="Screenshot 2026-02-20 165455" src="https://github.com/user-attachments/assets/77ac7e98-b38d-4c9c-86fd-4ff45859a6de" />
-<img width="503" height="721" alt="Screenshot 2026-02-20 165618" src="https://github.com/user-attachments/assets/8ffb63fe-1f1e-4a4c-b0a2-fa4f7d51ef0b" />
-<img width="502" height="721" alt="Screenshot 2026-02-20 171024" src="https://github.com/user-attachments/assets/de6d3d3a-220f-4adb-af09-a18245a4f46e" />
-<img width="504" height="721" alt="Screenshot 2026-02-20 171143" src="https://github.com/user-attachments/assets/eba54e4e-efa7-4c66-99ba-a478d6193040" />
+login page
+<img width="506" height="708" alt="Screenshot 2026-02-20 192257" src="https://github.com/user-attachments/assets/9dc9c113-4751-4529-a40d-2527f319a8f1" />
+
+register page
+<img width="503" height="714" alt="Screenshot 2026-02-20 192949" src="https://github.com/user-attachments/assets/bc566177-7831-44af-9358-9cf31c3b8794" />
+
+chat list
+<img width="504" height="703" alt="Screenshot 2026-02-20 202808" src="https://github.com/user-attachments/assets/19bc9adc-5bd2-41a4-974b-aab9ffd40c30" />
+
+chattings
+<img width="507" height="709" alt="Screenshot 2026-02-20 204153" src="https://github.com/user-attachments/assets/724a2484-1372-4f4e-8671-0ea28b1f0f94" />
+<img width="506" height="707" alt="Screenshot 2026-02-20 204329" src="https://github.com/user-attachments/assets/dee84241-35e7-4c67-963d-ec01e50c5449" />
+<img width="504" height="721" alt="Screenshot 2026-02-20 171143" src="https://github.com/user-attachments/assets/b9fb3ed7-bc8d-4dba-a697-ab71bc3e78b7" />
+<img width="502" height="721" alt="Screenshot 2026-02-20 171024" src="https://github.com/user-attachments/assets/a09185b5-fc04-4e2e-b8bc-bbd3e9af0786" />
+
+
 
 
 
