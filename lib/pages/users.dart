@@ -24,6 +24,7 @@ class _UsersPageState extends State<UsersPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Users'),
+        centerTitle: false,
         actions: [
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -87,6 +88,15 @@ class _UsersPageState extends State<UsersPage> {
                       ),
                       builder: (context, messageSnapshot) {
                         return ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.green,
+                            child: Text(
+                              otherUser.username.isEmpty
+                                  ? '?'
+                                  : otherUser.username[0].toUpperCase(),
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          ),
                           title: Text(otherUser.username),
                           subtitle:
                               messageSnapshot.hasData &&
