@@ -33,12 +33,11 @@
 - [x] **5.3** Display chat history and update UI in real time
 
 ## Phase 6: Push Notifications
+<!-- This phase is not presented yet -->
 
-<!--
 - [ ] **6.1** Integrate Firebase Cloud Messaging (FCM)
 - [ ] **6.2** Request notification permissions and handle tokens
 - [ ] **6.3** Show notifications for new messages
--->
 
 ## Phase 7: UI/UX Improvements
 
